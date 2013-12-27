@@ -13,6 +13,7 @@ var soundCameraClick;
 var soundOpenGift;
 var parpadeo;
 var colorMensaje;
+var recargado;
 
 function setFullScreen(){
 	var w=window.innerWidth/canvas.width;
@@ -61,6 +62,7 @@ function star(ctx, x, y, r, p, m){
 }
 
 var main = function() {
+	recargado=false;
 	estado=0;
 	flash=0;
 	parpadeo=0;
@@ -274,6 +276,12 @@ var logica_juego=function(){
 	if(flash>4){
 		flash=0;
 		estado++;
+	}
+	
+	if(((canvas.width!=window.innerWidth)||(canvas.height!=window.innerHeight))&&(!recargado)){
+		recargado=true;
+		clearInterval(interval);
+		main();
 	}
 }
 
