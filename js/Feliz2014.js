@@ -6,6 +6,7 @@ var ctx = null;
 var regalo=null;
 var polaroid=null;
 var foto=null;
+var fotoCava=null;
 var estado;
 var interval;
 var flash;
@@ -14,6 +15,7 @@ var soundOpenGift;
 var parpadeo;
 var colorMensaje;
 var recargado;
+var nombre;
 
 function setFullScreen(){
 	var w=window.innerWidth/canvas.width;
@@ -80,14 +82,10 @@ var main = function() {
 	setFullScreen();
 	
 	regalo=new ElementoEscenario(canvas.width/2-100,canvas.height/2-100,200,200,"imagenes/gift.png");
-	polaroid=new ElementoEscenario(canvas.width/2-100,canvas.height/2-150,200,200,"imagenes/polaroid.png");
+	polaroid=new ElementoEscenario(canvas.width/2-100,canvas.height/2-200,200,200,"imagenes/polaroid.png");
 	
-
-	if(locationVars('img')===undefined){
-		foto=new ElementoEscenario(canvas.width/2-80,canvas.height/2+20,160,160,"imagenes/polaroid.png");
-	}else{
-		foto=new ElementoEscenario(canvas.width/2-80,canvas.height/2+20,160,160,locationVars('img'));
-	}
+	fotoCava=new ElementoEscenario(canvas.width/2-80,canvas.height/2-30,160,160,"imagenes/fotoCava.jpg");
+	foto=new ElementoEscenario(canvas.width/2-80,canvas.height/2-30,160,160,locationVars('img'));
 	
 	ctx.textAlign="center";
 	ctx.textBaseline="bottom";
@@ -103,6 +101,11 @@ var main = function() {
 	
 	EM.canvas = canvas;
 	EM.addEventsListeners();
+	
+	nombre=locationVars('nombre');
+	if(nombre==undefined){
+		nombre="a todos";
+	}
 
 	interval=setInterval(hilo_juego,100);
 }
@@ -122,10 +125,10 @@ var render_juego=function(){
 			ctx.font="Italic 15px Comic Sans MS";
 			ctx.fillStyle="white";
 
-			if(locationVars('nombre')==="a todos"){
+			if(nombre==="a todos"){
 				ctx.fillText("¡Tócame para abrirme!",canvas.width/2,regalo.y+regalo.height,canvas.width-40);
 			}else{
-				ctx.fillText("¡"+ locationVars('nombre') +", tócame para abrirme!",canvas.width/2,regalo.y+regalo.height,canvas.width-40);
+				ctx.fillText("¡"+ nombre +", tócame para abrirme!",canvas.width/2,regalo.y+regalo.height,canvas.width-40);
 			}
 		}else{
 			polaroid.render();
@@ -140,10 +143,11 @@ var render_juego=function(){
 					ctx.fillRect(foto.x-10,foto.y-10,180,200);
 					ctx.fillStyle="black";
 					ctx.fillText("¡Feliz 2014!",foto.x+80,foto.y+foto.height+20,180);
+					fotoCava.render();
 					foto.render();
 				}
 				if(estado>3){
-					ctx.font="Bold 20px Lucida Handwriting";
+					ctx.font="Bold 18px Lucida Handwriting";
 					
 					if(parpadeo===0){
 						colorMensaje="#"+Math.floor(Math.random()*16777215).toString(16);
@@ -153,7 +157,7 @@ var render_juego=function(){
 					parpadeo=parpadeo%10;
 
 					ctx.fillStyle=colorMensaje;
-					ctx.fillText("¡Feliz año nuevo "+locationVars('nombre')+"!",canvas.width/2,50,canvas.width-40);
+					ctx.fillText("¡Feliz año nuevo "+nombre+"!",canvas.width/2,50,canvas.width-40);
 				}
 			}	
 		}
@@ -173,7 +177,7 @@ var logica_juego=function(){
 			flash=1;
 			estado=2;
 			soundCameraClick.play();
-		}else if((estado===3)&&(foto.tocado(EM.canX,EM.canY))){
+		}else if((estado===3)&&(fotoCava.tocado(EM.canX,EM.canY))){
 			estado=4;
 		}
 	}
