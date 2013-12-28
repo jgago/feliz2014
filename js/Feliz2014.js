@@ -45,9 +45,6 @@ function locationVars (vr){
 		if(vr==='nombre'){
 			return "a todos";
 		}
-		else{
-			return "imagenes/polaroid.png";
-		}
 	}
 }
 
@@ -117,50 +114,48 @@ var hilo_juego=function(){
 
 var render_juego=function(){
 	if(flash===0){
-		ctx.fillStyle="red";
+		ctx.fillStyle="black";
 		ctx.fillRect(0,0,canvas.width, canvas.height);
-		if(estado<13){
-			regalo.render();
-		}
+		regalo.render();
 		
 		if(estado==0){
 			ctx.font="Italic 15px Comic Sans MS";
 			ctx.fillStyle="white";
 
 			if(locationVars('nombre')==="a todos"){
-				ctx.fillText("¡Tocame para abrirme!",canvas.width/2,regalo.y+regalo.height,canvas.width-40);
+				ctx.fillText("¡Tócame para abrirme!",canvas.width/2,regalo.y+regalo.height,canvas.width-40);
 			}else{
-				ctx.fillText("¡"+ locationVars('nombre') +", tocame para abrirme!",canvas.width/2,regalo.y+regalo.height,canvas.width-40);
+				ctx.fillText("¡"+ locationVars('nombre') +", tócame para abrirme!",canvas.width/2,regalo.y+regalo.height,canvas.width-40);
 			}
-		}else if (estado<13){
+		}else{
 			polaroid.render();
 			if(estado===1){
 				ctx.font="Italic 15px Comic Sans MS";
 				ctx.fillStyle="white";
 				ctx.fillText("¡Pero si es una Cámara! ¡Lanza una fotito!",canvas.width/2,regalo.y+regalo.height,canvas.width-40);
-			}
-		}else{
-			ctx.font="Bold 30px Lucida Handwriting";
-			
-			if(parpadeo===0){
-				colorMensaje="#"+Math.floor(Math.random()*16777215).toString(16);
-			}
-			
-			parpadeo++;
-			parpadeo=parpadeo%10;
+			}else{
+				if(estado>=2){
+					ctx.font="Bold Italic 15px Lucida Handwriting";
+					ctx.fillStyle="white";
+					ctx.fillRect(foto.x-10,foto.y-10,180,200);
+					ctx.fillStyle="black";
+					ctx.fillText("¡Feliz 2014!",foto.x+80,foto.y+foto.height+20,180);
+					foto.render();
+				}
+				if(estado>3){
+					ctx.font="Bold 20px Lucida Handwriting";
+					
+					if(parpadeo===0){
+						colorMensaje="#"+Math.floor(Math.random()*16777215).toString(16);
+					}
+					
+					parpadeo++;
+					parpadeo=parpadeo%10;
 
-			ctx.fillStyle=colorMensaje;
-			ctx.fillText("¡Feliz año nuevo "+locationVars('nombre')+"!",canvas.width/2,canvas.height/2,canvas.width-40);
-		}
-		
-		ctx.font="Bold Italic 15px Lucida Handwriting";
-		
-		if(estado===3){
-			ctx.fillStyle="white";
-			ctx.fillRect(foto.x-10,foto.y-10,180,200);
-			ctx.fillStyle="black";
-			ctx.fillText("¡Feliz 2014!",foto.x+80,foto.y+foto.height+20,180);
-			foto.render();
+					ctx.fillStyle=colorMensaje;
+					ctx.fillText("¡Feliz año nuevo "+locationVars('nombre')+"!",canvas.width/2,50,canvas.width-40);
+				}
+			}	
 		}
 	}else{
 		ctx.fillStyle="white";
@@ -178,6 +173,8 @@ var logica_juego=function(){
 			flash=1;
 			estado=2;
 			soundCameraClick.play();
+		}else if((estado===3)&&(foto.tocado(EM.canX,EM.canY))){
+			estado=4;
 		}
 	}
 	
