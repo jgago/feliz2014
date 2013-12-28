@@ -138,7 +138,7 @@ var render_juego=function(){
 			if(estado===1){
 				ctx.font="Italic 15px Comic Sans MS";
 				ctx.fillStyle="white";
-				ctx.fillText("¡Pero si es una Cámara! ¡Lanza una fotito!",canvas.width/2,regalo.y+regalo.height,canvas.width-40);
+				ctx.fillText("¡Una cámara! ¡Lanza una fotito!",canvas.width/2,regalo.y+regalo.height,canvas.width-40);
 			}else{
 					ctx.font="Bold Italic 15px Lucida Handwriting";
 					ctx.fillStyle="white";
