@@ -85,7 +85,10 @@ var main = function() {
 	polaroid=new ElementoEscenario(canvas.width/2-100,canvas.height/2-200,200,200,"imagenes/polaroid.png");
 	
 	fotoCava=new ElementoEscenario(canvas.width/2-80,canvas.height/2-30,160,160,"imagenes/fotoCava.jpg");
-	foto=new ElementoEscenario(canvas.width/2-80,canvas.height/2-30,160,160,locationVars('img'));
+	
+	if(locationVars('img')!==undefined){
+		foto=new ElementoEscenario(canvas.width/2-80,canvas.height/2-30,160,160,locationVars('img'));
+	}
 	
 	ctx.textAlign="center";
 	ctx.textBaseline="bottom";
@@ -137,16 +140,17 @@ var render_juego=function(){
 				ctx.fillStyle="white";
 				ctx.fillText("¡Pero si es una Cámara! ¡Lanza una fotito!",canvas.width/2,regalo.y+regalo.height,canvas.width-40);
 			}else{
-				if(estado>=2){
 					ctx.font="Bold Italic 15px Lucida Handwriting";
 					ctx.fillStyle="white";
-					ctx.fillRect(foto.x-10,foto.y-10,180,200);
+					ctx.fillRect(fotoCava.x-10,fotoCava.y-10,180,200);
 					ctx.fillStyle="black";
-					ctx.fillText("¡Feliz 2014!",foto.x+80,foto.y+foto.height+20,180);
+					ctx.fillText("¡Feliz 2014!",fotoCava.x+80,fotoCava.y+fotoCava.height+20,180);
 					fotoCava.render();
-					foto.render();
-				}
-				if(estado>3){
+					
+					if(locationVars('img')!==undefined){
+						foto.render();
+					}
+					
 					ctx.font="Bold 18px Lucida Handwriting";
 					
 					if(parpadeo===0){
@@ -158,8 +162,7 @@ var render_juego=function(){
 
 					ctx.fillStyle=colorMensaje;
 					ctx.fillText("¡Feliz año nuevo "+nombre+"!",canvas.width/2,50,canvas.width-40);
-				}
-			}	
+			}
 		}
 	}else{
 		ctx.fillStyle="white";
