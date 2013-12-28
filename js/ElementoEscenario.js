@@ -27,7 +27,7 @@ var ElementoEscenario=function(x,y,w,h,sr){
 		cargado=true;
 	}
 	
-	this.sprite = new Image();
+	this.sprite = new Image();	
 	this.sprite.onload = onImageLoad;
 	this.sprite.src = sr;
 }

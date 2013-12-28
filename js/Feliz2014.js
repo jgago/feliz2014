@@ -84,8 +84,13 @@ var main = function() {
 	
 	regalo=new ElementoEscenario(canvas.width/2-100,canvas.height/2-100,200,200,"imagenes/gift.png");
 	polaroid=new ElementoEscenario(canvas.width/2-100,canvas.height/2-150,200,200,"imagenes/polaroid.png");
+	
 
-	foto=new ElementoEscenario(canvas.width/2-80,canvas.height/2+20,160,160,locationVars('img'));
+	if(locationVars('img')===undefined){
+		foto=new ElementoEscenario(canvas.width/2-80,canvas.height/2+20,160,160,"imagenes/polaroid.png");
+	}else{
+		foto=new ElementoEscenario(canvas.width/2-80,canvas.height/2+20,160,160,locationVars('img'));
+	}
 	
 	ctx.textAlign="center";
 	ctx.textBaseline="bottom";
@@ -120,19 +125,19 @@ var render_juego=function(){
 		
 		if(estado==0){
 			ctx.font="Italic 15px Comic Sans MS";
-			ctx.fillStyle="yellow";
+			ctx.fillStyle="white";
 
 			if(locationVars('nombre')==="a todos"){
-				ctx.fillText("¡¡Ohhhhh!! ¡Un regalito! ¡Tocame para abrirme!",canvas.width/2,regalo.y+regalo.height+50,canvas.width-40);
+				ctx.fillText("¡Tocame para abrirme!",canvas.width/2,regalo.y+regalo.height,canvas.width-40);
 			}else{
-				ctx.fillText("¡¡Ohhhhh!! ¡Un regalito para "+ locationVars('nombre') +"! ¡Tocame para abrirme!",canvas.width/2,regalo.y+regalo.height+50,canvas.width-40);
+				ctx.fillText("¡"+ locationVars('nombre') +", tocame para abrirme!",canvas.width/2,regalo.y+regalo.height,canvas.width-40);
 			}
 		}else if (estado<13){
 			polaroid.render();
 			if(estado===1){
 				ctx.font="Italic 15px Comic Sans MS";
-				ctx.fillStyle="yellow";
-				ctx.fillText("¡Pero si es una Cámara! ¡Lanza una fotito!",canvas.width/2,regalo.y+regalo.height+50,canvas.width-40);
+				ctx.fillStyle="white";
+				ctx.fillText("¡Pero si es una Cámara! ¡Lanza una fotito!",canvas.width/2,regalo.y+regalo.height,canvas.width-40);
 			}
 		}else{
 			ctx.font="Bold 30px Lucida Handwriting";
